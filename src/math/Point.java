@@ -71,4 +71,8 @@ public class Point extends Point2D {
         g.drawLine(A.getViewX(), A.getViewY(), B.getViewX(), B.getViewY());
     }
 
+    public static double distance(Point A, Point B){
+        return Math.sqrt((A.x - B.x) * (A.x - B.x) + (A.y - B.y) * (A.y - B.y));
+    }
+
 }

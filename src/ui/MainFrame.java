@@ -5,13 +5,15 @@
  */
 package ui;
 
+
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
 import math.*;
-import math.Point;
-
 import static math.AppConstants.*;
+import math.Point;
 
 /**
  * TODO Document me
@@ -48,23 +50,9 @@ public class MainFrame extends JFrame {
         //drawAxes(g);
         double side = CIRCLE_RADIUS * SIDE_TO_RADIUS_RATIO;
         double radius = CIRCLE_RADIUS;
-        // Initial test - hardcoded triangles
-/*
-        Triangle t1 = new Triangle(new math.Point(0, AppConstants.CIRCLE_RADIUS / 2), AppConstants.CIRCLE_RADIUS, false);
-        Triangle t2 = new Triangle(new math.Point(side / 2, AppConstants.CIRCLE_RADIUS ), AppConstants.CIRCLE_RADIUS, true);
-        Triangle t3 = new Triangle(new math.Point(side, AppConstants.CIRCLE_RADIUS / 2), AppConstants.CIRCLE_RADIUS, false);
-        Triangle t4 = new Triangle(new math.Point(0, - AppConstants.CIRCLE_RADIUS / 2), AppConstants.CIRCLE_RADIUS, true);
-        Triangle t5 = new Triangle(new math.Point(side / 2, - AppConstants.CIRCLE_RADIUS), AppConstants.CIRCLE_RADIUS, false);
-        Triangle t6 = new Triangle(new math.Point(side, - AppConstants.CIRCLE_RADIUS / 2), AppConstants.CIRCLE_RADIUS, true);
-        g.setColor(Color.yellow); t1.draw(g);
-        g.setColor(Color.orange); t2.draw(g);
-        g.setColor(Color.yellow); t3.draw(g);
-        g.setColor(Color.orange); t4.draw(g);
-        g.setColor(Color.yellow); t5.draw(g);
-        g.setColor(Color.orange); t6.draw(g);
-*/
-        // Second test - generated tiling
-       /* g.setColor(Color.orange);
+
+        // Test - generated tiling
+/*        g.setColor(Color.orange);
         for (int i = 0; i < 4; i ++){
             for (int j = 0; j < 7; j ++) {
                 Triangle tr = getTile(i, j, side, radius);
@@ -72,6 +60,8 @@ public class MainFrame extends JFrame {
             }
         }*/
 
+        // Simplest celtic node
+/*
         Triangle top = getTile(0, 2, side, radius);
         top.close(3); top.draw(g);
         Triangle left = getTile(1, 1, side, radius);
@@ -80,11 +70,105 @@ public class MainFrame extends JFrame {
         right.close(1); right.draw(g);
         Triangle center = getTile(1, 2, side, radius);
         center.draw(g);
+*/
+        // Level 2 symmetric celtic node
+/*
+        Triangle top = getTile(0, 4, side, radius);
+        top.close(3); top.draw(g);
 
-        /*Arc arc = new Arc(new math.Point(0, 0), 150, 120, 180);
-        arc.draw(g);
-        Arc arc2 = new Arc(new math.Point(0, 0), 175, 120, 180);
-        arc2.draw(g);*/
+        top = getTile(1, 2, side, radius);
+        top.close(2); top.draw(g);
+        top = getTile(1, 3, side, radius);
+        top.draw(g);
+        top = getTile(1, 4, side, radius);
+        top.draw(g);
+        top = getTile(1, 5, side, radius);
+        top.draw(g);
+        top = getTile(1, 6, side, radius);
+        top.close(3); top.draw(g);
+
+        top = getTile(2, 2, side, radius);
+        top.close(2); top.draw(g);
+        top = getTile(2, 3, side, radius);
+        top.draw(g);
+        top = getTile(2, 4, side, radius);
+        top.draw(g);
+        top = getTile(2, 5, side, radius);
+        top.draw(g);
+        top = getTile(2, 6, side, radius);
+        top.close(1); top.draw(g);
+
+        top = getTile(3, 4, side, radius);
+        top.close(1); top.draw(g);
+*/
+
+        // Level 3 symmetric
+        List<Triangle> tiling = new ArrayList<Triangle>();
+
+        Triangle top = getTile(1, 3, side, radius);
+        top.close(3); tiling.add(top);
+        top = getTile(1, 5, side, radius);
+        top.close(3); tiling.add(top);
+
+        top = getTile(6, 3, side, radius);
+        top.close(1); tiling.add(top);
+        top = getTile(6, 5, side, radius);
+        top.close(1); tiling.add(top);
+
+
+        top = getTile(2, 1, side, radius);
+        top.close(2); tiling.add(top);
+        top = getTile(2, 7, side, radius);
+        top.close(3); tiling.add(top);
+
+        top = getTile(5, 1, side, radius);
+        top.close(2); tiling.add(top);
+        top = getTile(5, 7, side, radius);
+        top.close(1); tiling.add(top);
+
+        for (int i = 2; i <= 6; i++){
+            top = getTile(2, i, side, radius);
+            tiling.add(top);
+            top = getTile(5, i, side, radius);
+            tiling.add(top);
+        }
+
+        top = getTile(3, 0, side, radius);
+        top.close(2); tiling.add(top);
+        top = getTile(3, 8, side, radius);
+        top.close(3); tiling.add(top);
+
+        top = getTile(4, 0, side, radius);
+        top.close(2); tiling.add(top);
+        top = getTile(4, 8, side, radius);
+        top.close(1); tiling.add(top);
+
+        for (int i = 1; i <= 7; i++){
+            top = getTile(3, i, side, radius);
+            if (i == 4){
+                top.close(1);
+            } else if (i == 3){
+                top.close(1);
+            } else if (i == 5){
+                top.close(2);
+            }
+            tiling.add(top);
+            top = getTile(4, i, side, radius);
+            if (i == 4){
+                top.close(3);
+            } else if (i == 3){
+                top.close(3);
+            } else if (i == 5){
+                top.close(2);
+            }
+            tiling.add(top);
+        }
+
+
+        for (Triangle tr: tiling){
+            tr.draw(g);
+        }
+
     }
 
     private Triangle getTile(int i, int j, double side, double radius){

@@ -12,6 +12,7 @@ package math;
  *
  */
 public interface AppConstants {
+    double EPSILON = 0.000001;
 
     int APP_WIDTH = 800;
 
@@ -19,15 +20,19 @@ public interface AppConstants {
 
     int STROKE_WIDTH = 2;
 
-    int CIRCLE_RADIUS = 100;
+    int CIRCLE_RADIUS = 60;
 
     double SIDE_TO_RADIUS_RATIO = Math.sqrt(3);
 
-    int HOFFSET = 10;
+    int HOFFSET = 100;
 
     int VOFFSET = 10;
 
-    boolean TRIANGLES_ON = true;
+    double LARGE_FACTOR = 1.3;
+
+    double SMALL_FACTOR = 1.1;
+
+    boolean TRIANGLES_ON = false;
 
     boolean LABELS_ON = false;
 
