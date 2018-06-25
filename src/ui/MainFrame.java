@@ -7,13 +7,15 @@ package ui;
 
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 import math.*;
-import static math.AppConstants.*;
 import math.Point;
+
+import static math.AppConstants.*;
 
 /**
  * TODO Document me
@@ -43,6 +45,10 @@ public class MainFrame extends JFrame {
         drawStuff();
     }
 
+    public static final int SIMPLE_NODE = 1;
+	public static final int LEVEL2_NODE = 2;
+	public static final int LEVEL3_NODE = 3;
+
     public void drawStuff(){
         Graphics2D g = (Graphics2D)getMainPanel().getGraphics();
         g.setStroke(new BasicStroke(AppConstants.STROKE_WIDTH));
@@ -50,125 +56,132 @@ public class MainFrame extends JFrame {
         //drawAxes(g);
         double side = CIRCLE_RADIUS * SIDE_TO_RADIUS_RATIO;
         double radius = CIRCLE_RADIUS;
+        int nodeType = 3;
 
         // Test - generated tiling
-/*        g.setColor(Color.orange);
+/*
+        g.setColor(Color.orange);
         for (int i = 0; i < 4; i ++){
             for (int j = 0; j < 7; j ++) {
                 Triangle tr = getTile(i, j, side, radius);
                 tr.draw(g);
             }
-        }*/
-
-        // Simplest celtic node
-/*
-        Triangle top = getTile(0, 2, side, radius);
-        top.close(3); top.draw(g);
-        Triangle left = getTile(1, 1, side, radius);
-        left.close(2); left.draw(g);
-        Triangle right = getTile(1, 3, side, radius);
-        right.close(1); right.draw(g);
-        Triangle center = getTile(1, 2, side, radius);
-        center.draw(g);
+        }
 */
-        // Level 2 symmetric celtic node
-/*
-        Triangle top = getTile(0, 4, side, radius);
-        top.close(3); top.draw(g);
+		Triangle top;
+		switch (nodeType) {
+			case SIMPLE_NODE:
+				// Simplest celtic node
+				top = getTile(0, 2, side, radius);
+				top.close(3); top.draw(g);
+				Triangle left = getTile(1, 1, side, radius);
+				left.close(2); left.draw(g);
+				Triangle right = getTile(1, 3, side, radius);
+				right.close(1); right.draw(g);
+				Triangle center = getTile(1, 2, side, radius);
+				center.draw(g);
+				break;
+			case LEVEL2_NODE:
+				// Level 2 symmetric celtic node
+				top = getTile(0, 4, side, radius);
+				top.close(3); top.draw(g);
 
-        top = getTile(1, 2, side, radius);
-        top.close(2); top.draw(g);
-        top = getTile(1, 3, side, radius);
-        top.draw(g);
-        top = getTile(1, 4, side, radius);
-        top.draw(g);
-        top = getTile(1, 5, side, radius);
-        top.draw(g);
-        top = getTile(1, 6, side, radius);
-        top.close(3); top.draw(g);
+				top = getTile(1, 2, side, radius);
+				top.close(2); top.draw(g);
+				top = getTile(1, 3, side, radius);
+				top.draw(g);
+				top = getTile(1, 4, side, radius);
+				top.draw(g);
+				top = getTile(1, 5, side, radius);
+				top.draw(g);
+				top = getTile(1, 6, side, radius);
+				top.close(3); top.draw(g);
 
-        top = getTile(2, 2, side, radius);
-        top.close(2); top.draw(g);
-        top = getTile(2, 3, side, radius);
-        top.draw(g);
-        top = getTile(2, 4, side, radius);
-        top.draw(g);
-        top = getTile(2, 5, side, radius);
-        top.draw(g);
-        top = getTile(2, 6, side, radius);
-        top.close(1); top.draw(g);
+				top = getTile(2, 2, side, radius);
+				top.close(2); top.draw(g);
+				top = getTile(2, 3, side, radius);
+				top.draw(g);
+				top = getTile(2, 4, side, radius);
+				top.draw(g);
+				top = getTile(2, 5, side, radius);
+				top.draw(g);
+				top = getTile(2, 6, side, radius);
+				top.close(1); top.draw(g);
 
-        top = getTile(3, 4, side, radius);
-        top.close(1); top.draw(g);
-*/
+				top = getTile(3, 4, side, radius);
+				top.close(1); top.draw(g);
+				break;
+			case LEVEL3_NODE:
+				// Level 3 symmetric
+				List<Triangle> tiling = new ArrayList<Triangle>();
 
-        // Level 3 symmetric
-        List<Triangle> tiling = new ArrayList<Triangle>();
+				top = getTile(1, 3, side, radius);
+				top.close(3); tiling.add(top);
+				top = getTile(1, 5, side, radius);
+				top.close(3); tiling.add(top);
 
-        Triangle top = getTile(1, 3, side, radius);
-        top.close(3); tiling.add(top);
-        top = getTile(1, 5, side, radius);
-        top.close(3); tiling.add(top);
-
-        top = getTile(6, 3, side, radius);
-        top.close(1); tiling.add(top);
-        top = getTile(6, 5, side, radius);
-        top.close(1); tiling.add(top);
-
-
-        top = getTile(2, 1, side, radius);
-        top.close(2); tiling.add(top);
-        top = getTile(2, 7, side, radius);
-        top.close(3); tiling.add(top);
-
-        top = getTile(5, 1, side, radius);
-        top.close(2); tiling.add(top);
-        top = getTile(5, 7, side, radius);
-        top.close(1); tiling.add(top);
-
-        for (int i = 2; i <= 6; i++){
-            top = getTile(2, i, side, radius);
-            tiling.add(top);
-            top = getTile(5, i, side, radius);
-            tiling.add(top);
-        }
-
-        top = getTile(3, 0, side, radius);
-        top.close(2); tiling.add(top);
-        top = getTile(3, 8, side, radius);
-        top.close(3); tiling.add(top);
-
-        top = getTile(4, 0, side, radius);
-        top.close(2); tiling.add(top);
-        top = getTile(4, 8, side, radius);
-        top.close(1); tiling.add(top);
-
-        for (int i = 1; i <= 7; i++){
-            top = getTile(3, i, side, radius);
-            if (i == 4){
-                top.close(1);
-            } else if (i == 3){
-                top.close(1);
-            } else if (i == 5){
-                top.close(2);
-            }
-            tiling.add(top);
-            top = getTile(4, i, side, radius);
-            if (i == 4){
-                top.close(3);
-            } else if (i == 3){
-                top.close(3);
-            } else if (i == 5){
-                top.close(2);
-            }
-            tiling.add(top);
-        }
+				top = getTile(6, 3, side, radius);
+				top.close(1); tiling.add(top);
+				top = getTile(6, 5, side, radius);
+				top.close(1); tiling.add(top);
 
 
-        for (Triangle tr: tiling){
-            tr.draw(g);
-        }
+				top = getTile(2, 1, side, radius);
+				top.close(2); tiling.add(top);
+				top = getTile(2, 7, side, radius);
+				top.close(3); tiling.add(top);
 
+				top = getTile(5, 1, side, radius);
+				top.close(2); tiling.add(top);
+				top = getTile(5, 7, side, radius);
+				top.close(1); tiling.add(top);
+
+				for (int i = 2; i <= 6; i++){
+					top = getTile(2, i, side, radius);
+					tiling.add(top);
+					top = getTile(5, i, side, radius);
+					tiling.add(top);
+				}
+
+				top = getTile(3, 0, side, radius);
+				top.close(2); tiling.add(top);
+				top = getTile(3, 8, side, radius);
+				top.close(3); tiling.add(top);
+
+				top = getTile(4, 0, side, radius);
+				top.close(2); tiling.add(top);
+				top = getTile(4, 8, side, radius);
+				top.close(1); tiling.add(top);
+
+				for (int i = 1; i <= 7; i++){
+					top = getTile(3, i, side, radius);
+					if (i == 4){
+						top.close(1);
+					} else if (i == 3){
+						top.close(1);
+					} else if (i == 5){
+						top.close(2);
+					}
+					tiling.add(top);
+					top = getTile(4, i, side, radius);
+					if (i == 4){
+						top.close(3);
+					} else if (i == 3){
+						top.close(3);
+					} else if (i == 5){
+						top.close(2);
+					}
+					tiling.add(top);
+				}
+
+
+				for (Triangle tr: tiling){
+					tr.draw(g);
+				}
+				break;
+			default:
+				break;
+		}
     }
 
     private Triangle getTile(int i, int j, double side, double radius){
